@@ -34,6 +34,9 @@ public:
 	elementCub(usi* color);
 	elementCub(elementCub& el);
 	elementCub& operator = (elementCub& el);
+	void SetLocation();
+	void SetLocation(usi loc);
+	usi GetLocation();
 	~elementCub(void);
 	friend ostream& operator<< (ostream& s, elementCub& e);
 };
@@ -77,7 +80,19 @@ elementCub& elementCub::operator = (elementCub& el){
 	for (int i = 0;i < NumberFacesCube;i++){
 		*(arrColor + i) = *(el.arrColor + i);
 	}
-	cout << "Hello world!";
+}
+
+void elementCub::SetLocation(){
+	//по умолчанию местоположение not defined
+	*location = 4;
+}
+
+void elementCub::SetLocation(usi loc){
+	*location = loc;
+}
+
+usi elementCub::GetLocation(){
+	return *location;
 }
 
 ostream& operator<< (ostream& s, elementCub& e){
