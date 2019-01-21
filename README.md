@@ -1,1 +1,1 @@
-# Rubic
+Cubik
