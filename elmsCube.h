@@ -1,6 +1,4 @@
 //заголовочный файл elmsCube.h
-#ifndef ELMSCUBE_H
-#define ELMSCUBE_H
 
 #include <iostream>
 using namespace std;
@@ -9,10 +7,11 @@ typedef unsigned short int usi;
 
 //константы
 const usi NumberFacesCube = 6;
-const usi MaxNumberColoredFaces = 3;//допускаются кубы >= 2x2x2
+const usi MaxNumberColoredFaces = 3;
+//допускаются кубы >= 2x2x2
 
 //цвета раскраски
-enum Color{
+enum Color{	
 	white,
 	blue,
 	red,
@@ -26,23 +25,68 @@ enum Color{
 //элемент(деталь) куба
 class elementCub{
 public:
-	//количество закрашенных цветов
-	//определяет тип детали(угловая, ребёрная, граневая, внутренняя)
-	usi* number_colored_faces;
-	usi* arrElm;// указатель на массив.раскраски куба
+	usi* arrColor;// указатель на массив.раскраски куба
+	usi* location;//определяет местопроложение 1ого элемента куба
+	//0(front), 1(down), 2(right),
+	//3(back), 4(left), 5(up), 6(not defined)
 	
 	elementCub(void);
-	
+	elementCub(usi* color);
+	elementCub(elementCub& el);
+	elementCub& operator = (elementCub& el);
+	~elementCub(void);
 	friend ostream& operator<< (ostream& s, elementCub& e);
 };
 
+
+//определения методов класса elementCub
 elementCub::elementCub(void){
-	//по умолчанию угловая деталь
-	number_colored_faces = new usi(3);
-	arrElm = new usi[NumberFacesCube];
+	arrColor = new usi[NumberFacesCube];
+	location = new usi;
+	*location = 6;
 	for (int i = 0;i < NumberFacesCube;i++){
-		(*(arrElm + i)) = none;
+		(*(arrColor + i)) = none;
 	}
 }
 
-#endif ELMSCUBE_H
+elementCub::elementCub(usi* color){
+	arrColor = new usi[NumberFacesCube];
+	location = new usi;
+	*location = 6;
+	for (int i = 0;i < NumberFacesCube;i++){
+		*(arrColor + i) = *(color + i);
+	}
+}
+
+elementCub::elementCub(elementCub& el){
+	arrColor = new usi[NumberFacesCube];
+	location = new usi;
+	*location = *(el.location);
+	for (int i = 0;i < NumberFacesCube;i++){
+		*(arrColor + i) = *(el.arrColor + i);
+	}
+}
+
+elementCub::~elementCub(void){
+	delete [] location;
+	delete [] arrColor;
+}
+
+elementCub& elementCub::operator = (elementCub& el){
+	*location = *(el.location);
+	for (int i = 0;i < NumberFacesCube;i++){
+		*(arrColor + i) = *(el.arrColor + i);
+	}
+	cout << "Hello world!";
+}
+
+ostream& operator<< (ostream& s, elementCub& e){
+	s << *(e.arrColor) << endl;
+	s << *(e.arrColor + 1) << ' ';
+	s << *(e.arrColor + 2) << ' ';
+	s << *(e.arrColor + 3) << ' ';
+	s << *(e.arrColor + 4) << endl;
+	s << *(e.arrColor + 5) << endl;
+	s << "location: " << *(e.location) << endl;
+	return s;	
+}
