@@ -22,14 +22,20 @@ enum Color{
 	none//без цвета
 };
 
+//прототипы функций
+
+void Swap_u4(elementCub* el1, elementCub* el2,
+elementCub* el3, elementCub* el4);
+
 //элемент(деталь) куба
 class elementCub{
-public:
+private:
 	usi* arrColor;// указатель на массив.раскраски куба
 	usi* location;//определяет местопроложение 1ого элемента куба
 	//0(front), 1(down), 2(right),
 	//3(back), 4(left), 5(up), 6(not defined)
-	
+
+public:
 	elementCub(void);
 	elementCub(usi* color);
 	elementCub(elementCub& el);
@@ -37,6 +43,8 @@ public:
 	void SetLocation();
 	void SetLocation(usi loc);
 	usi GetLocation();
+	friend void swap(elementCub* el1, elementCub* el2);
+	void MoveX();
 	~elementCub(void);
 	friend ostream& operator<< (ostream& s, elementCub& e);
 };
@@ -84,7 +92,7 @@ elementCub& elementCub::operator = (elementCub& el){
 
 void elementCub::SetLocation(){
 	//по умолчанию местоположение not defined
-	*location = 4;
+	*location = 6;
 }
 
 void elementCub::SetLocation(usi loc){
@@ -93,6 +101,17 @@ void elementCub::SetLocation(usi loc){
 
 usi elementCub::GetLocation(){
 	return *location;
+}
+
+void swap(elementCub* el1, elementCub* el2){
+	elementCub* temp = el1;
+	el1 = el2;
+	el2 = temp;
+}
+
+void elementCub::MoveX(){
+	usi* temp = arrColor;
+	arrColor + 1 = 
 }
 
 ostream& operator<< (ostream& s, elementCub& e){
